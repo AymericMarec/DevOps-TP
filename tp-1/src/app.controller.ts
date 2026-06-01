@@ -1,12 +1,28 @@
 import { Controller, Get, Req } from '@nestjs/common';
-import { AppService } from './app.service';
+import { CounterStore } from './counter-store.service';
 
 @Controller("ping")
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class AppControllerPing {
+  constructor(private readonly shared: CounterStore) {}
 
   @Get()
   getHeaders(@Req() req: Request) {
+    this.shared.addRequest()
     return req.headers;
+  }
+}
+
+@Controller("stats")
+export class AppControllerStats {
+  constructor(private readonly shared: CounterStore) {}
+
+  @Get()
+  getStats() {
+    this.shared.addRequest()
+    return JSON.stringify({
+      "nbRequest":this.shared.getValue(),
+      "uptime":process.uptime(),
+      "idInstance":process.env.INSTANCE_ID
+    });
   }
 }

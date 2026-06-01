@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { AppControllerPing, AppControllerStats } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
+import { CounterStore } from './counter-store.service';
 
 @Module({
     imports: [
@@ -9,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppControllerPing,AppControllerStats],
+  providers: [AppService,CounterStore],
 })
 export class AppModule {}
