@@ -1,0 +1,14 @@
+FROM node:24
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+RUN npm run build
+    
+RUN useradd -m nestdevops
+RUN chown -R nestdevops:nestdevops /app
+USER nestdevops
+
+CMD ["npm", "run", "start"]
